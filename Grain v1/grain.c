@@ -33,8 +33,8 @@ int grain_keystream(grain* mygrain) {
 void keysetup(
   grain* mygrain,
   const int* key,
-  int keysize,                /* Key size in bits. */
-  int ivsize)				  /* IV size in bits. */
+  int keysize,			/* Key size in bits. */
+  int ivsize)			/* IV size in bits. */
 {
 	mygrain->p_key=key;
 	mygrain->keysize=keysize;
@@ -81,8 +81,6 @@ void ivsetup(
 			mygrain->LFSR[i*8+j]=((iv[i]>>j)&1);
 		}
 	}
-	//printf("%02X ", mygrain->LFSR[79]);
-	//printf("%02X ", mygrain->NFSR[79]);
 	for (i=(mygrain->ivsize)/8;i<(mygrain->keysize)/8;++i) {
 		for (j=0;j<8;++j) {
 			mygrain->NFSR[i*8+j]=((mygrain->p_key[i]>>j)&1);
@@ -196,7 +194,7 @@ int main(int argc, char **argv) {
 	int decrypted_text[10];
 
 	grain mygrain;
-	/*int key1[10] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+	int key1[10] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 		IV1[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 	    ks[10];
 
@@ -204,9 +202,8 @@ int main(int argc, char **argv) {
 		IV2[8] = {0x01,0x23,0x45,0x67,0x89,0xab,0xcd,0xef};
 
 	int key3[10] = {0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
-		IV3[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};*/
+		IV3[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
-	//uji running 30x dengan pesan yang berbeda
 	int key1[10] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 		IV1[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 	    ks[10],
@@ -214,8 +211,8 @@ int main(int argc, char **argv) {
 	    plaintext3[10]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 	int n=1;
-	//while(n <= 36 ){  //looping program 36 kali
-    printf("\nTestCase: %d", n);
+	
+    	printf("\nTestCase: %d", n);
 	keysetup(&mygrain,key1,80,64);
 	ivsetup(&mygrain,IV1);
 	keystream_bytes(&mygrain,ks,10);
@@ -223,8 +220,6 @@ int main(int argc, char **argv) {
 	encrypt_bytes(&mygrain,plaintext,encrypted_text,10);
 	decrypt_bytes(&mygrain2,encrypted_text,decrypted_text,10);
 	printData(key1,IV1,ks, plaintext, encrypted_text, decrypted_text, 10);
-	//n++;
-	//} return 0;
 
 	printf("\n\nTestCase: 2\n");
 	keysetup(&mygrain,key1,80,64);
